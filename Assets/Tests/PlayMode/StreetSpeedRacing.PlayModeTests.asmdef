@@ -1,0 +1,19 @@
+{
+  "name": "StreetSpeedRacing.PlayModeTests",
+  "rootNamespace": "",
+  "references": [
+    "StreetSpeedRacing.Game"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

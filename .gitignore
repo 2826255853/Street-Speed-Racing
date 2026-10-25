@@ -1,0 +1,41 @@
+# Unity caches and generated output
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Local editor settings and generated project files
+/.vs/
+/.idea/
+/.vscode/
+/.gradle/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.opendb
+*.VC.db
+*.csproj.meta
+*.unityproj.meta
+*.sln.meta
+*.slnx.meta
+*.pidb.meta
+
+# Temporary files and operating system metadata
+*.tmp
+*.temp
+*.log
+sysinfo.txt
+.DS_Store
+Thumbs.db
+Desktop.ini
