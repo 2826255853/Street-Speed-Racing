@@ -34,6 +34,23 @@ public class RaceGamePlayModeTests
         Assert.IsNotNull(EventSystem.current.GetComponent<InputSystemUIInputModule>());
         Assert.IsNotNull(hud.transform.Find("Safe Area/Tachometer/Dial"));
         Assert.IsNotNull(hud.transform.Find("Safe Area/Tachometer/Needle"));
+        RaceGaugeGraphic needle = hud.transform.Find("Safe Area/Tachometer/Needle").GetComponent<RaceGaugeGraphic>();
+        Assert.IsNotNull(needle.GetComponent<CanvasRenderer>());
+        Assert.AreEqual(Color.white, needle.NeedleTint);
+        Vector2 needleCenter = new Vector2(needle.rectTransform.rect.center.x,
+            needle.rectTransform.rect.yMin + needle.rectTransform.rect.height * 0.255f);
+        RectTransform zeroRpmLabel = hud.transform.Find("Safe Area/Tachometer/Scale 0").GetComponent<RectTransform>();
+        Vector3 needleCenterInGauge = needle.rectTransform.parent.InverseTransformPoint(
+            needle.rectTransform.TransformPoint(needleCenter));
+        Vector3 zeroLabelInGauge = needle.rectTransform.parent.InverseTransformPoint(
+            zeroRpmLabel.TransformPoint(Vector3.zero));
+        Assert.That(needleCenterInGauge.y, Is.EqualTo(zeroLabelInGauge.y).Within(0.01f),
+            "The gauge pivot must align with the scale labels so the needle stays inside the visible HUD.");
+        Canvas.ForceUpdateCanvases();
+        Mesh needleMesh = needle.canvasRenderer.GetMesh();
+        Assert.Greater(needleMesh.vertexCount, 0, "The needle graphic must submit visible mesh geometry.");
+        Assert.IsFalse(needle.canvasRenderer.cull, "The canvas must not cull the needle graphic.");
+        Assert.Greater(needle.canvasRenderer.GetAlpha(), 0f, "The canvas renderer must keep the needle opaque.");
         Assert.AreEqual(controller.playerVehicle.redlineRpm, hud.MaximumRpm);
         Assert.IsNotNull(Resources.Load<Sprite>("UI/Icons/panel"));
         Assert.AreEqual("准备起步", hud.transform.Find("Safe Area/Race Header/Phase").GetComponent<Text>().text);
@@ -43,6 +60,7 @@ public class RaceGamePlayModeTests
         hud.Render(RacePhase.Preparing, 0, 0, controller.PlayerState, controller.OpponentState,
             controller.playerVehicle, controller.config, string.Empty);
         Assert.IsTrue(hud.InBestRange);
+        Assert.AreEqual(RaceGaugeGraphic.Green, needle.NeedleTint);
         Button throttle = FindButton(hud.transform, "Throttle");
         RaceHoldControl throttleHold = throttle.GetComponent<RaceHoldControl>();
         throttleHold.OnPointerDown(new PointerEventData(EventSystem.current) { pointerId = 101 });
@@ -57,6 +75,7 @@ public class RaceGamePlayModeTests
             controller.playerVehicle, controller.config, string.Empty);
         Assert.IsFalse(hud.ShowingLaunchWindow);
         Assert.IsTrue(hud.InBestRange);
+        Assert.AreEqual(RaceGaugeGraphic.Green, needle.NeedleTint);
 
         Button upshift = FindButton(hud.transform, "Upshift");
         Button downshift = FindButton(hud.transform, "Downshift");

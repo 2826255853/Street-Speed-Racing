@@ -106,6 +106,7 @@ public sealed class RaceHud : MonoBehaviour
         for (int i = 0; i < 13; i++)
             scaleLabels.Add(Label(gaugeRoot, "Scale " + i, "", 18, new Vector2(.5f, 0), Vector2.zero, new Vector2(52, 28), true));
         needle = Graphic("Needle", gaugeRoot, RaceGaugeGraphic.Layer.Needle);
+        Debug.Log($"[RaceHud] 转速表指针加载完成：已创建={needle != null}，激活={needle != null && needle.gameObject.activeInHierarchy}，启用={needle != null && needle.enabled}，尺寸={(needle != null ? needle.rectTransform.rect.size.ToString() : "N/A")}，Canvas={(needle != null && needle.canvas != null ? needle.canvas.name : "null")}", needle);
 
         leftControls = Rect("Left Controls", safe);
         rightControls = Rect("Right Controls", safe);
@@ -315,6 +316,7 @@ public sealed class RaceHud : MonoBehaviour
     {
         RectTransform rect = Rect(name, parent);
         Stretch(rect);
+        rect.gameObject.AddComponent<CanvasRenderer>();
         RaceGaugeGraphic graphic = rect.gameObject.AddComponent<RaceGaugeGraphic>();
         graphic.layer = layer;
         graphic.raycastTarget = false;

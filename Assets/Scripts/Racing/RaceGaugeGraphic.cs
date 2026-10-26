@@ -11,6 +11,7 @@ public sealed class RaceGaugeGraphic : MaskableGraphic
     private bool launch, inRange;
     public static readonly Color Green = new Color(0.48f, 0.95f, 0.30f);
     public static readonly Color Red = new Color(1f, 0.24f, 0.24f);
+    public Color NeedleTint { get; private set; } = Color.white;
 
     public void SetData(float max, float min, float maxRange, float launchTarget, bool isLaunch, bool hit, float displayedRpm)
     {
@@ -22,6 +23,7 @@ public sealed class RaceGaugeGraphic : MaskableGraphic
         target = launchTarget;
         launch = isLaunch;
         inRange = hit;
+        if (layer == Layer.Needle) NeedleTint = hit ? Green : Color.white;
         rpm = displayedRpm;
         if (changed) SetVerticesDirty();
     }
@@ -36,10 +38,18 @@ public sealed class RaceGaugeGraphic : MaskableGraphic
         {
             Vector2 direction = Direction(rpm / maximum);
             Vector2 side = new Vector2(-direction.y, direction.x);
-            Vector2 start = center + direction * (radius * 0.80f);
-            Vector2 tip = center + direction * (radius * 0.995f);
-            Quad(mesh, start + side * 2.5f, tip + side * 0.6f, tip - side * 0.6f, start - side * 2.5f,
-                inRange ? Green : new Color(1f, 0.98f, 0.90f));
+            Vector2 basePoint = center - direction * (radius * 0.12f);
+            Vector2 shoulder = center + direction * (radius * 0.69f);
+            Vector2 tip = center + direction * (radius * 0.90f);
+            Color outline = new Color(0.025f, 0.029f, 0.034f, 0.95f);
+
+            // A dark edge keeps the pointer visible over the gauge markings.
+            Quad(mesh, basePoint + side * 8f, shoulder + side * 6f, shoulder - side * 6f, basePoint - side * 8f, outline);
+            Triangle(mesh, tip, shoulder + side * 7f, shoulder - side * 7f, outline);
+            Quad(mesh, basePoint + side * 4.5f, shoulder + side * 3.2f, shoulder - side * 3.2f, basePoint - side * 4.5f, NeedleTint);
+            Triangle(mesh, tip, shoulder + side * 4f, shoulder - side * 4f, NeedleTint);
+            Disc(mesh, center, 13f, outline);
+            Disc(mesh, center, 8f, NeedleTint);
             return;
         }
 
@@ -113,5 +123,18 @@ public sealed class RaceGaugeGraphic : MaskableGraphic
         mesh.AddVert(b, tint, Vector2.zero);
         mesh.AddVert(c, tint, Vector2.zero);
         mesh.AddTriangle(index, index + 1, index + 2);
+    }
+
+    private static void Disc(VertexHelper mesh, Vector2 center, float radius, Color tint)
+    {
+        const int segments = 24;
+        for (int i = 0; i < segments; i++)
+        {
+            float start = i * Mathf.PI * 2f / segments;
+            float end = (i + 1) * Mathf.PI * 2f / segments;
+            Vector2 a = center + new Vector2(Mathf.Cos(start), Mathf.Sin(start)) * radius;
+            Vector2 b = center + new Vector2(Mathf.Cos(end), Mathf.Sin(end)) * radius;
+            Triangle(mesh, center, a, b, tint);
+        }
     }
 }
