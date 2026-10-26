@@ -1,0 +1,17 @@
+{
+  "LOD0": {
+    "triangles": 122641,
+    "vertices": 69339,
+    "mesh_objects": 6
+  },
+  "LOD1": {
+    "triangles": 48797,
+    "vertices": 30178,
+    "mesh_objects": 6
+  },
+  "LOD2": {
+    "triangles": 14096,
+    "vertices": 11110,
+    "mesh_objects": 6
+  }
+}

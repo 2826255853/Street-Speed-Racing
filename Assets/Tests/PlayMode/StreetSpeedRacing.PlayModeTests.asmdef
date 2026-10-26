@@ -2,7 +2,9 @@
   "name": "StreetSpeedRacing.PlayModeTests",
   "rootNamespace": "",
   "references": [
-    "StreetSpeedRacing.Game"
+    "StreetSpeedRacing.Game",
+    "UnityEngine.UI",
+    "Unity.InputSystem"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

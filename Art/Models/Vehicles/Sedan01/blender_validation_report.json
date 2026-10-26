@@ -1,0 +1,103 @@
+{
+  "blender": "5.2.3 LTS",
+  "levels": [
+    {
+      "level": 0,
+      "triangles": 122641,
+      "sizeBlenderXYZ": [
+        2.138000011444092,
+        4.675999641418457,
+        1.4758000373840332
+      ],
+      "wheelPivots": {
+        "Wheel_FL": [
+          -0.781,
+          1.365,
+          0.325
+        ],
+        "Wheel_FR": [
+          0.781,
+          1.365,
+          0.325
+        ],
+        "Wheel_RL": [
+          -0.781,
+          -1.335,
+          0.325
+        ],
+        "Wheel_RR": [
+          0.781,
+          -1.335,
+          0.325
+        ]
+      },
+      "degenerateTriangles": 0
+    },
+    {
+      "level": 1,
+      "triangles": 48797,
+      "sizeBlenderXYZ": [
+        2.138000011444092,
+        4.676028728485107,
+        1.4750579595565796
+      ],
+      "wheelPivots": {
+        "Wheel_FL": [
+          -0.781,
+          1.365,
+          0.325
+        ],
+        "Wheel_FR": [
+          0.781,
+          1.365,
+          0.325
+        ],
+        "Wheel_RL": [
+          -0.781,
+          -1.335,
+          0.325
+        ],
+        "Wheel_RR": [
+          0.781,
+          -1.335,
+          0.325
+        ]
+      },
+      "degenerateTriangles": 0
+    },
+    {
+      "level": 2,
+      "triangles": 13322,
+      "sizeBlenderXYZ": [
+        2.135812520980835,
+        4.675947189331055,
+        1.47730553150177
+      ],
+      "wheelPivots": {
+        "Wheel_FL": [
+          -0.781,
+          1.365,
+          0.325
+        ],
+        "Wheel_FR": [
+          0.781,
+          1.365,
+          0.325
+        ],
+        "Wheel_RL": [
+          -0.781,
+          -1.335,
+          0.325
+        ],
+        "Wheel_RR": [
+          0.781,
+          -1.335,
+          0.325
+        ]
+      },
+      "degenerateTriangles": 0
+    }
+  ],
+  "editableSourceMeshes": 1115,
+  "passed": true
+}

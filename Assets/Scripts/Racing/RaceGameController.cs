@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class RaceGameController : MonoBehaviour
 {
+    private static readonly Vector3 PlayerCameraOffset = new Vector3(3.5f, 2f, 3.5f);
+    private static readonly Vector3 PlayerCameraLookOffset = new Vector3(0f, 0.85f, 1.9f);
+
     public RaceConfig config = new RaceConfig();
     public VehicleSpec playerVehicle = new VehicleSpec { displayName = "玩家车辆" };
     public VehicleSpec opponentVehicle = new VehicleSpec { displayName = "电脑车辆", peakTorque = 415f };
@@ -24,11 +27,15 @@ public class RaceGameController : MonoBehaviour
     private bool pendingNitrous;
     private bool startRequested;
     private bool initialized;
+    private bool touchLaunchHeld;
+    private bool hasInputFocus = true;
     private string result = string.Empty;
 
     public RacePhase Phase { get { return phase; } }
     public RaceCarState PlayerState { get { return playerState; } }
     public RaceCarState OpponentState { get { return opponentState; } }
+    public RaceHud Hud { get { return hud; } }
+    public bool TouchLaunchHeld { get { return touchLaunchHeld; } }
 
     private void Start()
     {
@@ -44,18 +51,18 @@ public class RaceGameController : MonoBehaviour
         }
 
         Keyboard keyboard = Keyboard.current;
-        bool launchHeld = keyboard != null && keyboard.spaceKey.isPressed;
-        if (keyboard != null)
+        bool launchHeld = hasInputFocus && (touchLaunchHeld || (keyboard != null && keyboard.spaceKey.isPressed));
+        if (keyboard != null && hasInputFocus)
         {
             if (phase == RacePhase.Racing)
             {
-                pendingShift |= keyboard.eKey.wasPressedThisFrame;
-                pendingDownshift |= keyboard.qKey.wasPressedThisFrame;
-                pendingNitrous |= keyboard.leftShiftKey.wasPressedThisFrame;
+                if (keyboard.eKey.wasPressedThisFrame) RequestUpshift();
+                if (keyboard.qKey.wasPressedThisFrame) RequestDownshift();
+                if (keyboard.leftShiftKey.wasPressedThisFrame) RequestNitrous();
             }
             if (phase == RacePhase.Preparing && keyboard.enterKey.wasPressedThisFrame)
             {
-                startRequested = true;
+                RequestStart();
             }
             if (phase == RacePhase.Finished && keyboard.rKey.wasPressedThisFrame)
             {
@@ -87,24 +94,66 @@ public class RaceGameController : MonoBehaviour
         UpdatePresentation();
     }
 
-    private void OnGUI()
+    public void RequestStart()
     {
-        if (phase == RacePhase.Preparing)
-        {
-            Rect button = new Rect(Screen.width * 0.5f - 120f, Screen.height * 0.5f - 28f, 240f, 56f);
-            if (GUI.Button(button, "准备比赛 / START"))
-            {
-                startRequested = true;
-            }
-        }
-        else if (phase == RacePhase.Finished)
-        {
-            Rect button = new Rect(Screen.width * 0.5f - 100f, Screen.height * 0.72f, 200f, 48f);
-            if (GUI.Button(button, "再来一局 / R"))
-            {
-                ResetRace();
-            }
-        }
+        if (phase == RacePhase.Preparing) startRequested = true;
+    }
+
+    public void SetLaunchHeld(bool held)
+    {
+        touchLaunchHeld = held && hasInputFocus && isActiveAndEnabled &&
+            (phase == RacePhase.Preparing || phase == RacePhase.Countdown);
+    }
+
+    public void RequestUpshift()
+    {
+        if (CanDrive() && playerState.shiftCooldown <= 0f && playerState.gear < playerVehicle.gearRatios.Count)
+            pendingShift = true;
+    }
+
+    public void RequestDownshift()
+    {
+        if (CanDrive() && playerState.shiftCooldown <= 0f && playerState.gear > 1)
+            pendingDownshift = true;
+    }
+
+    public void RequestNitrous()
+    {
+        if (CanDrive() && playerState.nitrousChargesRemaining > 0 && !playerState.NitrousActive && playerVehicle.nitrousDuration > 0f)
+            pendingNitrous = true;
+    }
+
+    public void RequestRestart()
+    {
+        if (phase == RacePhase.Finished) ResetRace();
+    }
+
+    private bool CanDrive()
+    {
+        return hasInputFocus && isActiveAndEnabled && phase == RacePhase.Racing && playerState != null && !playerState.finished;
+    }
+
+    private void OnApplicationFocus(bool focused)
+    {
+        hasInputFocus = focused;
+        if (!focused) ClearInput();
+    }
+
+    private void OnApplicationPause(bool paused)
+    {
+        if (paused) ClearInput();
+    }
+
+    private void OnDisable()
+    {
+        ClearInput();
+    }
+
+    private void ClearInput()
+    {
+        touchLaunchHeld = false;
+        pendingShift = pendingDownshift = pendingNitrous = startRequested = false;
+        if (hud != null) hud.ReleaseControls();
     }
 
     private void Initialize()
@@ -142,8 +191,10 @@ public class RaceGameController : MonoBehaviour
         pendingDownshift = false;
         pendingNitrous = false;
         startRequested = false;
+        touchLaunchHeld = false;
         result = string.Empty;
         phase = RacePhase.Preparing;
+        if (hud != null) hud.ResetFeedback();
         if (playerVisual != null)
         {
             playerVisual.SetDistance(0f);
@@ -166,7 +217,7 @@ public class RaceGameController : MonoBehaviour
     private void SimulatePreparation(bool launchHeld)
     {
         RaceCarSimulator.UpdateLaunchRpm(playerVehicle, config, playerState, launchHeld, config.fixedStep);
-        RaceCarSimulator.UpdateLaunchRpm(opponentVehicle, config, opponentState, opponentController.ShouldHoldLaunch(opponentState), config.fixedStep);
+        RaceCarSimulator.UpdateLaunchRpm(opponentVehicle, config, opponentState, opponentController.ShouldHoldLaunch(opponentVehicle, config, opponentState), config.fixedStep);
         if (startRequested)
         {
             BeginCountdown();
@@ -176,13 +227,14 @@ public class RaceGameController : MonoBehaviour
     private void SimulateCountdown(bool launchHeld)
     {
         RaceCarSimulator.UpdateLaunchRpm(playerVehicle, config, playerState, launchHeld, config.fixedStep);
-        RaceCarSimulator.UpdateLaunchRpm(opponentVehicle, config, opponentState, opponentController.ShouldHoldLaunch(opponentState), config.fixedStep);
+        RaceCarSimulator.UpdateLaunchRpm(opponentVehicle, config, opponentState, opponentController.ShouldHoldLaunch(opponentVehicle, config, opponentState), config.fixedStep);
         countdownRemaining -= config.fixedStep;
         if (countdownRemaining <= 0f)
         {
             RaceCarSimulator.BeginRace(playerVehicle, config, playerState);
             RaceCarSimulator.BeginRace(opponentVehicle, config, opponentState);
             phase = RacePhase.Racing;
+            touchLaunchHeld = false;
             raceTime = 0f;
         }
     }
@@ -251,8 +303,8 @@ public class RaceGameController : MonoBehaviour
         finish.transform.localScale = new Vector3(12f, 0.03f, 1.4f);
         ApplyMaterial(finish, new Color(1f, 0.8f, 0.1f));
 
-        playerVisual = new RaceCarVisual("Player Car", new Color(0.1f, 0.45f, 1f), -2.4f);
-        opponentVisual = new RaceCarVisual("Opponent Car", new Color(0.95f, 0.15f, 0.1f), 2.4f);
+        playerVisual = new RaceCarVisual("Player Car", new Color(0.1f, 0.45f, 1f), 2.4f, transform);
+        opponentVisual = new RaceCarVisual("Opponent Car", new Color(0.95f, 0.15f, 0.1f), -2.4f, transform);
         raceCamera = Camera.main;
         if (raceCamera == null)
         {
@@ -268,7 +320,7 @@ public class RaceGameController : MonoBehaviour
         sun.type = LightType.Directional;
         sun.intensity = 1.2f;
         lightObject.transform.rotation = Quaternion.Euler(45f, -25f, 0f);
-        hud = RaceHud.Create();
+        hud = RaceHud.Create(this);
     }
 
     private void UpdatePresentation()
@@ -281,15 +333,14 @@ public class RaceGameController : MonoBehaviour
 
         if (raceCamera != null)
         {
-            float midpoint = (playerState.distance + opponentState.distance) * 0.5f;
-            float cameraZ = Mathf.Clamp(midpoint - 22f, -24f, Mathf.Max(-24f, config.finishDistance - 70f));
-            raceCamera.transform.position = new Vector3(18f, 16f, cameraZ);
-            raceCamera.transform.LookAt(new Vector3(0f, 0.6f, cameraZ + 28f));
+            Transform playerTransform = playerVisual.Root;
+            raceCamera.transform.position = playerTransform.TransformPoint(PlayerCameraOffset);
+            raceCamera.transform.LookAt(playerTransform.TransformPoint(PlayerCameraLookOffset));
         }
 
         if (hud != null)
         {
-            hud.Render(phase, countdownRemaining, raceTime, playerState, opponentState, config, result);
+            hud.Render(phase, countdownRemaining, raceTime, playerState, opponentState, playerVehicle, config, result);
         }
     }
 

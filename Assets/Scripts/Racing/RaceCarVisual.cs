@@ -1,61 +1,66 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RaceCarVisual
 {
+    private const float WheelRadius = 0.325f;
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
     private readonly Transform root;
+    private readonly List<Transform> wheels = new List<Transform>();
+    private readonly List<Quaternion> wheelRestRotations = new List<Quaternion>();
 
-    public RaceCarVisual(string name, Color color, float laneX)
+    public Transform Root { get { return root; } }
+
+    public RaceCarVisual(string name, Color color, float laneX, Transform parent)
     {
-        root = new GameObject(name).transform;
+        // The variant includes the linked art asset in builds and dynamically created races.
+        GameObject prefab = Resources.Load<GameObject>("Vehicles/RaceSedan");
+        if (prefab == null)
+        {
+            throw new InvalidOperationException("Missing vehicle prefab: Resources/Vehicles/RaceSedan");
+        }
 
-        Transform body = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
-        body.name = "Body";
-        body.SetParent(root, false);
-        body.localPosition = new Vector3(0f, 0.65f, -0.2f);
-        body.localScale = new Vector3(2.2f, 0.55f, 4.3f);
-        SetMaterial(body.gameObject, color);
-
-        Transform cabin = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
-        cabin.name = "Cabin";
-        cabin.SetParent(root, false);
-        cabin.localPosition = new Vector3(0f, 1.08f, -0.35f);
-        cabin.localScale = new Vector3(1.5f, 0.5f, 1.9f);
-        SetMaterial(cabin.gameObject, Color.Lerp(color, Color.black, 0.5f));
-
-        CreateWheel(new Vector3(-0.82f, 0.35f, -1.4f), root);
-        CreateWheel(new Vector3(0.82f, 0.35f, -1.4f), root);
-        CreateWheel(new Vector3(-0.82f, 0.35f, 1.25f), root);
-        CreateWheel(new Vector3(0.82f, 0.35f, 1.25f), root);
+        root = UnityEngine.Object.Instantiate(prefab, parent).transform;
+        root.name = name;
         root.position = new Vector3(laneX, 0f, 0f);
+        root.rotation = Quaternion.identity;
+
+        // Tint only the paint slot on every LOD, preserving the shared source materials.
+        var paint = new MaterialPropertyBlock();
+        paint.SetColor(BaseColor, color);
+        foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))
+        {
+            Material[] materials = renderer.sharedMaterials;
+            for (int slot = 0; slot < materials.Length; slot++)
+            {
+                if (materials[slot] != null && materials[slot].name == "Sedan01_SilverPaint")
+                {
+                    renderer.SetPropertyBlock(paint, slot);
+                }
+            }
+        }
+
+        // Animate all LODs so changing detail level never resets the wheel pose.
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (child.name == "Wheel_FL" || child.name == "Wheel_FR" ||
+                child.name == "Wheel_RL" || child.name == "Wheel_RR")
+            {
+                wheels.Add(child);
+                wheelRestRotations.Add(child.localRotation);
+            }
+        }
     }
 
     public void SetDistance(float distance)
     {
         root.position = new Vector3(root.position.x, root.position.y, distance);
-    }
-
-    private static void CreateWheel(Vector3 localPosition, Transform parent)
-    {
-        Transform wheel = GameObject.CreatePrimitive(PrimitiveType.Cylinder).transform;
-        wheel.name = "Wheel";
-        wheel.SetParent(parent, false);
-        wheel.localPosition = localPosition;
-        wheel.localRotation = Quaternion.Euler(0f, 0f, 90f);
-        wheel.localScale = new Vector3(0.34f, 0.19f, 0.34f);
-        SetMaterial(wheel.gameObject, new Color(0.07f, 0.07f, 0.08f));
-    }
-
-    private static void SetMaterial(GameObject target, Color color)
-    {
-        Renderer renderer = target.GetComponent<Renderer>();
-        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-        if (shader == null)
+        float angle = Mathf.Repeat(distance / WheelRadius * Mathf.Rad2Deg, 360f);
+        Quaternion roll = Quaternion.AngleAxis(angle, Vector3.right);
+        for (int i = 0; i < wheels.Count; i++)
         {
-            shader = Shader.Find("Standard");
+            wheels[i].localRotation = wheelRestRotations[i] * roll;
         }
-
-        Material material = new Material(shader);
-        material.color = color;
-        renderer.sharedMaterial = material;
     }
 }

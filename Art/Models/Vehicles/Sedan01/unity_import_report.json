@@ -1,0 +1,54 @@
+{
+    "prefab": "Assets/Art/Vehicles/Sedan01/Prefabs/Sedan01.prefab",
+    "unityVersion": "6000.6.7f1",
+    "shader": "Universal Render Pipeline/Lit",
+    "sizeMetres": {
+        "x": 2.138000011444092,
+        "y": 1.4758000373840332,
+        "z": 4.675999641418457
+    },
+    "frontLeftWheel": {
+        "x": -0.781000018119812,
+        "y": 0.32499998807907104,
+        "z": 1.3650000095367432
+    },
+    "frontRightWheel": {
+        "x": 0.781000018119812,
+        "y": 0.32499998807907104,
+        "z": 1.3650000095367432
+    },
+    "rearLeftWheel": {
+        "x": -0.781000018119812,
+        "y": 0.32499998807907104,
+        "z": -1.3350000381469727
+    },
+    "rearRightWheel": {
+        "x": 0.781000018119812,
+        "y": 0.32499998807907104,
+        "z": -1.3350000381469727
+    },
+    "materialAndGeometryChecksPassed": true,
+    "levels": [
+        {
+            "level": 0,
+            "triangles": 122641,
+            "vertices": 116363,
+            "renderers": 6,
+            "materialSlots": 27
+        },
+        {
+            "level": 1,
+            "triangles": 48797,
+            "vertices": 55274,
+            "renderers": 6,
+            "materialSlots": 27
+        },
+        {
+            "level": 2,
+            "triangles": 14096,
+            "vertices": 22322,
+            "renderers": 6,
+            "materialSlots": 27
+        }
+    ]
+}

@@ -13,6 +13,7 @@ public class RaceCarState
     public float finishTime = -1f;
     public float launchQuality;
     public ShiftQuality lastShiftQuality = ShiftQuality.Good;
+    public int shiftSequence;
     public float shiftCooldown;
     public float shiftPenalty = 1f;
     public float launchBoostTime;
@@ -36,6 +37,7 @@ public class RaceCarState
         finishTime = -1f;
         launchQuality = 0f;
         lastShiftQuality = ShiftQuality.Good;
+        shiftSequence = 0;
         shiftCooldown = 0f;
         shiftPenalty = 1f;
         launchBoostTime = 0f;
@@ -66,19 +68,30 @@ public static class RaceCarSimulator
     public static float EvaluateLaunchQuality(float rpm, RaceConfig config)
     {
         config.EnsureValid();
-        if (rpm < config.launchRpmMin || rpm > config.launchRpmMax)
+        return EvaluateLaunchQuality(rpm, config.launchRpmMin, config.launchRpmMax, config.launchRpmTarget);
+    }
+
+    public static float EvaluateLaunchQuality(float rpm, VehicleSpec spec, RaceConfig config)
+    {
+        RpmOperatingWindow window = spec.ResolveRpmSettings(config);
+        return EvaluateLaunchQuality(rpm, window.launchMin, window.launchMax, window.launchTarget);
+    }
+
+    private static float EvaluateLaunchQuality(float rpm, float min, float max, float target)
+    {
+        if (rpm < min || rpm > max)
         {
             return 0f;
         }
 
-        float halfRange = (config.launchRpmMax - config.launchRpmMin) * 0.5f;
-        if (halfRange <= 0f)
+        float sideRange = rpm < target ? target - min : max - target;
+        if (sideRange <= 0f)
         {
             return 1f;
         }
 
-        float distanceFromTarget = Mathf.Abs(rpm - config.launchRpmTarget);
-        return Mathf.Clamp01(1f - distanceFromTarget / halfRange);
+        float distanceFromTarget = Mathf.Abs(rpm - target);
+        return Mathf.Clamp01(1f - distanceFromTarget / sideRange);
     }
 
     public static void BeginRace(VehicleSpec spec, RaceConfig config, RaceCarState state)
@@ -91,7 +104,7 @@ public static class RaceCarSimulator
         }
 
         state.started = true;
-        state.launchQuality = EvaluateLaunchQuality(state.engineRpm, config);
+        state.launchQuality = EvaluateLaunchQuality(state.engineRpm, spec, config);
         state.launchBoostTime = config.launchBoostDuration;
         state.speed = 0f;
         state.gear = 1;
@@ -100,12 +113,23 @@ public static class RaceCarSimulator
     public static ShiftQuality EvaluateShift(float rpm, RaceConfig config)
     {
         config.EnsureValid();
-        if (rpm < config.bestShiftRpmMin)
+        return EvaluateShift(rpm, config.bestShiftRpmMin, config.bestShiftRpmMax);
+    }
+
+    public static ShiftQuality EvaluateShift(float rpm, VehicleSpec spec, RaceConfig config)
+    {
+        RpmOperatingWindow window = spec.ResolveRpmSettings(config);
+        return EvaluateShift(rpm, window.shiftMin, window.shiftMax);
+    }
+
+    private static ShiftQuality EvaluateShift(float rpm, float min, float max)
+    {
+        if (rpm < min)
         {
             return ShiftQuality.TooEarly;
         }
 
-        if (rpm > config.bestShiftRpmMax)
+        if (rpm > max)
         {
             return ShiftQuality.TooLate;
         }
@@ -123,7 +147,8 @@ public static class RaceCarSimulator
         }
 
         float oldRatio = spec.GetRatio(state.gear);
-        state.lastShiftQuality = EvaluateShift(state.engineRpm, config);
+        state.lastShiftQuality = EvaluateShift(state.engineRpm, spec, config);
+        state.shiftSequence++;
         switch (state.lastShiftQuality)
         {
             case ShiftQuality.TooEarly:
@@ -157,6 +182,7 @@ public static class RaceCarSimulator
         float newRatio = spec.GetRatio(state.gear);
         state.engineRpm = Mathf.Clamp(state.engineRpm * newRatio / oldRatio, spec.idleRpm, spec.redlineRpm);
         state.lastShiftQuality = ShiftQuality.Downshift;
+        state.shiftSequence++;
         state.shiftPenalty = 1f;
         state.shiftCooldown = spec.shiftDuration;
         return true;

@@ -35,6 +35,12 @@ public class VehicleSpec
     public float peakTorque = 420f;
     public float idleRpm = 900f;
     public float redlineRpm = 7600f;
+    public bool useCustomRpmSettings;
+    public float launchRpmMin = 4300f;
+    public float launchRpmMax = 6000f;
+    public float launchRpmTarget = 5300f;
+    public float bestShiftRpmMin = 5600f;
+    public float bestShiftRpmMax = 7000f;
     public float rpmResponse = 4200f;
     public float finalDrive = 3.55f;
     public float wheelRadius = 0.34f;
@@ -86,6 +92,38 @@ public class VehicleSpec
         int index = Mathf.Clamp(gear - 1, 0, gearRatios.Count - 1);
         return gearRatios[index];
     }
+
+    public RpmOperatingWindow ResolveRpmSettings(RaceConfig config)
+    {
+        EnsureValid();
+        config.EnsureValid();
+        float launchMin = useCustomRpmSettings ? launchRpmMin : config.launchRpmMin;
+        float launchMax = useCustomRpmSettings ? launchRpmMax : config.launchRpmMax;
+        float launchTarget = useCustomRpmSettings ? launchRpmTarget : config.launchRpmTarget;
+        float shiftMin = useCustomRpmSettings ? bestShiftRpmMin : config.bestShiftRpmMin;
+        float shiftMax = useCustomRpmSettings ? bestShiftRpmMax : config.bestShiftRpmMax;
+        return new RpmOperatingWindow
+        {
+            launchMin = SafeClamp(launchMin, idleRpm, redlineRpm),
+            launchMax = SafeClamp(launchMax, SafeClamp(launchMin, idleRpm, redlineRpm), redlineRpm),
+            launchTarget = SafeClamp(launchTarget, SafeClamp(launchMin, idleRpm, redlineRpm),
+                SafeClamp(launchMax, SafeClamp(launchMin, idleRpm, redlineRpm), redlineRpm)),
+            shiftMin = SafeClamp(shiftMin, idleRpm, redlineRpm),
+            shiftMax = SafeClamp(shiftMax, SafeClamp(shiftMin, idleRpm, redlineRpm), redlineRpm)
+        };
+    }
+
+    private static float SafeClamp(float value, float min, float max)
+    {
+        return float.IsNaN(value) ? min : Mathf.Clamp(value, min, max);
+    }
+}
+
+public struct RpmOperatingWindow
+{
+    public float launchMin, launchMax, launchTarget, shiftMin, shiftMax;
+    public bool ContainsLaunch(float rpm) { return rpm >= launchMin && rpm <= launchMax; }
+    public bool ContainsShift(float rpm) { return rpm >= shiftMin && rpm <= shiftMax; }
 }
 
 public enum RaceOutcome
