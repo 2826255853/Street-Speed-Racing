@@ -13,7 +13,7 @@ public sealed class RaceHud : MonoBehaviour
     private RaceGameController owner;
     private Font font, numbers;
     private RectTransform safe, gaugeRoot, leftControls, rightControls, center;
-    private RaceGaugeGraphic dial, needle;
+    private RaceGaugeGraphic nitrousCapacity, dial, needle;
     private Text phaseText, timerText, distanceText, playerText, opponentText, speedText, gearText, rpmText;
     private Text rangeText, cueText, countdownText, feedbackText, resultText, tooltipText, maxText, nitrousText;
     private Image playerProgress, opponentProgress;
@@ -93,6 +93,7 @@ public sealed class RaceHud : MonoBehaviour
         gaugeRoot = Rect("Tachometer", safe);
         Place(gaugeRoot, new Vector2(.5f, 0), new Vector2(0, 22), new Vector2(600, 535));
         gaugeRoot.pivot = new Vector2(.5f, 0);
+        nitrousCapacity = Graphic("Nitrous Capacity", gaugeRoot, RaceGaugeGraphic.Layer.Nitrous);
         dial = Graphic("Dial", gaugeRoot, RaceGaugeGraphic.Layer.Dial);
         rangeText = Label(gaugeRoot, "Operating Range", "", 17, new Vector2(.5f, 0), new Vector2(0, 425), new Vector2(600, 30));
         rangeText.color = Muted;
@@ -167,6 +168,15 @@ public sealed class RaceHud : MonoBehaviour
         bool showRange = ShowingLaunchWindow || canShift;
         dial.SetData(vehicle.redlineRpm, showRange ? min : 0, showRange ? max : 0, CurrentWindow.launchTarget, ShowingLaunchWindow, InBestRange, displayedRpm);
         needle.SetData(vehicle.redlineRpm, min, max, CurrentWindow.launchTarget, ShowingLaunchWindow, InBestRange, displayedRpm);
+        float nitrousFraction = 0f;
+        if (vehicle.nitrousDuration > 0f)
+        {
+            if (player.NitrousActive)
+                nitrousFraction = player.nitrousTimeRemaining / vehicle.nitrousDuration;
+            else if (player.nitrousChargesRemaining > 0)
+                nitrousFraction = 1f;
+        }
+        nitrousCapacity.SetNitrousData(nitrousFraction);
         UpdateScale(vehicle.redlineRpm);
         speedText.text = (player.speed * 3.6f).ToString("0");
         gearText.text = player.gear + " <size=26><color=#929C9F>/ " + vehicle.gearRatios.Count + "</color></size>";

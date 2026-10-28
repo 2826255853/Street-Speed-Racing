@@ -3,15 +3,26 @@ using UnityEngine.UI;
 
 public sealed class RaceGaugeGraphic : MaskableGraphic
 {
-    public enum Layer { Dial, Needle }
+    public enum Layer { Nitrous, Dial, Needle }
     public Layer layer;
     private float maximum = 7600f;
     private float rangeMin, rangeMax, target;
     private float rpm;
+    private float nitrousFraction = 1f;
     private bool launch, inRange;
     public static readonly Color Green = new Color(0.48f, 0.95f, 0.30f);
     public static readonly Color Red = new Color(1f, 0.24f, 0.24f);
+    public static readonly Color NitrousCyan = new Color(0.42f, 0.84f, 0.97f);
     public Color NeedleTint { get; private set; } = Color.white;
+    public float NitrousFraction { get { return nitrousFraction; } }
+
+    public void SetNitrousData(float fraction)
+    {
+        fraction = Mathf.Clamp01(fraction);
+        if (Mathf.Abs(nitrousFraction - fraction) <= 0.001f) return;
+        nitrousFraction = fraction;
+        SetVerticesDirty();
+    }
 
     public void SetData(float max, float min, float maxRange, float launchTarget, bool isLaunch, bool hit, float displayedRpm)
     {
@@ -34,6 +45,12 @@ public sealed class RaceGaugeGraphic : MaskableGraphic
         Rect rect = GetPixelAdjustedRect();
         float radius = rect.width * 0.465f;
         Vector2 center = new Vector2(rect.center.x, rect.yMin + rect.height * 0.255f);
+        if (layer == Layer.Nitrous)
+        {
+            Arc(mesh, center, radius + 13f, radius + 18f, 0f, 1f, new Color(0.10f, 0.23f, 0.28f, 0.82f));
+            Arc(mesh, center, radius + 13f, radius + 18f, 0f, nitrousFraction, NitrousCyan);
+            return;
+        }
         if (layer == Layer.Needle)
         {
             Vector2 direction = Direction(rpm / maximum);

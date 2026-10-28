@@ -34,6 +34,11 @@ public class RaceGamePlayModeTests
         Assert.IsNotNull(EventSystem.current.GetComponent<InputSystemUIInputModule>());
         Assert.IsNotNull(hud.transform.Find("Safe Area/Tachometer/Dial"));
         Assert.IsNotNull(hud.transform.Find("Safe Area/Tachometer/Needle"));
+        Assert.IsNotNull(hud.transform.Find("Safe Area/Tachometer/Nitrous Capacity"));
+        RaceGaugeGraphic nitrousCapacity = hud.transform.Find("Safe Area/Tachometer/Nitrous Capacity").GetComponent<RaceGaugeGraphic>();
+        Assert.AreEqual(1f, nitrousCapacity.NitrousFraction);
+        Canvas.ForceUpdateCanvases();
+        int fullNitrousArcVertices = nitrousCapacity.canvasRenderer.GetMesh().vertexCount;
         RaceGaugeGraphic needle = hud.transform.Find("Safe Area/Tachometer/Needle").GetComponent<RaceGaugeGraphic>();
         Assert.IsNotNull(needle.GetComponent<CanvasRenderer>());
         Assert.AreEqual(Color.white, needle.NeedleTint);
@@ -87,6 +92,23 @@ public class RaceGamePlayModeTests
         hud.Render(RacePhase.Racing, 0, .3f, controller.PlayerState, controller.OpponentState,
             controller.playerVehicle, controller.config, string.Empty);
         Assert.IsFalse(upshift.interactable);
+
+        controller.PlayerState.nitrousChargesRemaining = 0;
+        controller.PlayerState.nitrousTimeRemaining = controller.playerVehicle.nitrousDuration * .5f;
+        hud.Render(RacePhase.Racing, 0, .35f, controller.PlayerState, controller.OpponentState,
+            controller.playerVehicle, controller.config, string.Empty);
+        Assert.That(nitrousCapacity.NitrousFraction, Is.EqualTo(.5f).Within(.001f));
+        Canvas.ForceUpdateCanvases();
+        int partialNitrousArcVertices = nitrousCapacity.canvasRenderer.GetMesh().vertexCount;
+        controller.PlayerState.nitrousTimeRemaining = 0f;
+        hud.Render(RacePhase.Racing, 0, .4f, controller.PlayerState, controller.OpponentState,
+            controller.playerVehicle, controller.config, string.Empty);
+        Assert.AreEqual(0f, nitrousCapacity.NitrousFraction);
+        Canvas.ForceUpdateCanvases();
+        int emptyNitrousArcVertices = nitrousCapacity.canvasRenderer.GetMesh().vertexCount;
+        Assert.Greater(fullNitrousArcVertices, partialNitrousArcVertices);
+        Assert.Greater(partialNitrousArcVertices, emptyNitrousArcVertices);
+        Assert.Greater(emptyNitrousArcVertices, 0, "The empty state should retain its background capacity track.");
 
         int hudCount = Object.FindObjectsByType<RaceHud>(FindObjectsSortMode.None).Length;
         Assert.AreEqual(1, hudCount);
