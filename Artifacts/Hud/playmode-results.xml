@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="5" result="Passed" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-26 15:02:53Z" end-time="2026-10-26 15:03:06Z" duration="12.9165687">
+  <test-suite type="TestSuite" id="1011" name="Street Speed Racing" fullname="Street Speed Racing" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 15:02:53Z" end-time="2026-10-26 15:03:06Z" duration="12.916569" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1018" name="StreetSpeedRacing.PlayModeTests.dll" fullname="C:/Unity Project/Street Speed Racing/Library/ScriptAssemblies/StreetSpeedRacing.PlayModeTests.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 15:02:53Z" end-time="2026-10-26 15:03:06Z" duration="12.911297" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="14680" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1012" name="RaceGamePlayModeTests" fullname="RaceGamePlayModeTests" classname="RaceGamePlayModeTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 15:02:53Z" end-time="2026-10-26 15:03:06Z" duration="12.910275" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1017" name="CountdownRaceFinishAndRestartWorkInPlayMode" fullname="RaceGamePlayModeTests.CountdownRaceFinishAndRestartWorkInPlayMode" methodname="CountdownRaceFinishAndRestartWorkInPlayMode" classname="RaceGamePlayModeTests" runstate="Runnable" seed="2042449428" result="Passed" start-time="2026-10-26 15:02:53Z" end-time="2026-10-26 15:03:06Z" duration="12.803918" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1013" name="RaceHudReflectsResolvedRangesAndDriverInputs" fullname="RaceGamePlayModeTests.RaceHudReflectsResolvedRangesAndDriverInputs" methodname="RaceHudReflectsResolvedRangesAndDriverInputs" classname="RaceGamePlayModeTests" runstate="Runnable" seed="1824293857" result="Passed" start-time="2026-10-26 15:03:06Z" end-time="2026-10-26 15:03:06Z" duration="0.016338" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1015" name="RacePrototypeSceneStartsAndCreatesController" fullname="RaceGamePlayModeTests.RacePrototypeSceneStartsAndCreatesController" methodname="RacePrototypeSceneStartsAndCreatesController" classname="RaceGamePlayModeTests" runstate="Runnable" seed="1558722466" result="Passed" start-time="2026-10-26 15:03:06Z" end-time="2026-10-26 15:03:06Z" duration="0.044723" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1016" name="SedanModelsFollowDistanceAndResetWheelsAcrossAllLods" fullname="RaceGamePlayModeTests.SedanModelsFollowDistanceAndResetWheelsAcrossAllLods" methodname="SedanModelsFollowDistanceAndResetWheelsAcrossAllLods" classname="RaceGamePlayModeTests" runstate="Runnable" seed="1324546060" result="Passed" start-time="2026-10-26 15:03:06Z" end-time="2026-10-26 15:03:06Z" duration="0.034192" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1014" name="ThrottleHoldReleasesOnPointerExitAndComponentDisable" fullname="RaceGamePlayModeTests.ThrottleHoldReleasesOnPointerExitAndComponentDisable" methodname="ThrottleHoldReleasesOnPointerExitAndComponentDisable" classname="RaceGamePlayModeTests" runstate="Runnable" seed="383435933" result="Passed" start-time="2026-10-26 15:03:06Z" end-time="2026-10-26 15:03:06Z" duration="0.001060" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: C:/Users/ASUS/AppData/LocalLow/DefaultCompany/Street Speed Racing\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

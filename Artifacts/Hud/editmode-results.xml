@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="29" result="Passed" total="29" passed="29" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.0961223">
+  <test-suite type="TestSuite" id="1000" name="Street Speed Racing" fullname="Street Speed Racing" runstate="Runnable" testcasecount="29" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.096122" total="29" passed="29" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1035" name="StreetSpeedRacing.Tests.dll" fullname="C:/Unity Project/Street Speed Racing/Library/ScriptAssemblies/StreetSpeedRacing.Tests.dll" runstate="Runnable" testcasecount="29" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.089351" total="29" passed="29" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="87004" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="RacingSimulationTests" fullname="RacingSimulationTests" classname="RacingSimulationTests" runstate="Runnable" testcasecount="25" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.084224" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1022" name="AccurateLaunchProducesMoreEarlyDistance" fullname="RacingSimulationTests.AccurateLaunchProducesMoreEarlyDistance" methodname="AccurateLaunchProducesMoreEarlyDistance" classname="RacingSimulationTests" runstate="Runnable" seed="648583137" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.013978" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1016" name="DownshiftCapsRpmAtRedline" fullname="RacingSimulationTests.DownshiftCapsRpmAtRedline" methodname="DownshiftCapsRpmAtRedline" classname="RacingSimulationTests" runstate="Runnable" seed="1151188525" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.004086" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1017" name="DownshiftCommandUsesCooldownForBothDirections" fullname="RacingSimulationTests.DownshiftCommandUsesCooldownForBothDirections" methodname="DownshiftCommandUsesCooldownForBothDirections" classname="RacingSimulationTests" runstate="Runnable" seed="745713875" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000611" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-suite type="ParameterizedMethod" id="1015" name="DownshiftIsRejectedWithoutChangingState" fullname="RacingSimulationTests.DownshiftIsRejectedWithoutChangingState" classname="RacingSimulationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.003187" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1011" name="DownshiftIsRejectedWithoutChangingState(False,False,2,0.0f)" fullname="RacingSimulationTests.DownshiftIsRejectedWithoutChangingState(False,False,2,0.0f)" methodname="DownshiftIsRejectedWithoutChangingState" classname="RacingSimulationTests" runstate="Runnable" seed="1012635911" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.001046" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1012" name="DownshiftIsRejectedWithoutChangingState(True,True,2,0.0f)" fullname="RacingSimulationTests.DownshiftIsRejectedWithoutChangingState(True,True,2,0.0f)" methodname="DownshiftIsRejectedWithoutChangingState" classname="RacingSimulationTests" runstate="Runnable" seed="362169592" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000108" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1013" name="DownshiftIsRejectedWithoutChangingState(True,False,1,0.0f)" fullname="RacingSimulationTests.DownshiftIsRejectedWithoutChangingState(True,False,1,0.0f)" methodname="DownshiftIsRejectedWithoutChangingState" classname="RacingSimulationTests" runstate="Runnable" seed="1818721531" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000051" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1014" name="DownshiftIsRejectedWithoutChangingState(True,False,2,0.1f)" fullname="RacingSimulationTests.DownshiftIsRejectedWithoutChangingState(True,False,2,0.1f)" methodname="DownshiftIsRejectedWithoutChangingState" classname="RacingSimulationTests" runstate="Runnable" seed="811237978" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000051" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-suite type="ParameterizedMethod" id="1010" name="DownshiftLowersExactlyOneGear" fullname="RacingSimulationTests.DownshiftLowersExactlyOneGear" classname="RacingSimulationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000925" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1007" name="DownshiftLowersExactlyOneGear(2)" fullname="RacingSimulationTests.DownshiftLowersExactlyOneGear(2)" methodname="DownshiftLowersExactlyOneGear" classname="RacingSimulationTests" runstate="Runnable" seed="447014117" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000355" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1008" name="DownshiftLowersExactlyOneGear(3)" fullname="RacingSimulationTests.DownshiftLowersExactlyOneGear(3)" methodname="DownshiftLowersExactlyOneGear" classname="RacingSimulationTests" runstate="Runnable" seed="1901632347" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000056" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1009" name="DownshiftLowersExactlyOneGear(6)" fullname="RacingSimulationTests.DownshiftLowersExactlyOneGear(6)" methodname="DownshiftLowersExactlyOneGear" classname="RacingSimulationTests" runstate="Runnable" seed="1181653110" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000045" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1006" name="DownshiftRecoversFromEarlyUpshift" fullname="RacingSimulationTests.DownshiftRecoversFromEarlyUpshift" methodname="DownshiftRecoversFromEarlyUpshift" classname="RacingSimulationTests" runstate="Runnable" seed="110984029" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000181" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1005" name="EarlyShiftAppliesPowerPenalty" fullname="RacingSimulationTests.EarlyShiftAppliesPowerPenalty" methodname="EarlyShiftAppliesPowerPenalty" classname="RacingSimulationTests" runstate="Runnable" seed="1735746451" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000116" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1027" name="FasterFinishingCarWins" fullname="RacingSimulationTests.FasterFinishingCarWins" methodname="FasterFinishingCarWins" classname="RacingSimulationTests" runstate="Runnable" seed="2116316363" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000145" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1026" name="FinishTimesWithinOneMillisecondAreTied" fullname="RacingSimulationTests.FinishTimesWithinOneMillisecondAreTied" methodname="FinishTimesWithinOneMillisecondAreTied" classname="RacingSimulationTests" runstate="Runnable" seed="1655730229" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000093" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1003" name="LaunchInBestRangeGetsFullQuality" fullname="RacingSimulationTests.LaunchInBestRangeGetsFullQuality" methodname="LaunchInBestRangeGetsFullQuality" classname="RacingSimulationTests" runstate="Runnable" seed="1341802499" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000090" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1002" name="LaunchRpmIncreasesWhileHoldingSpace" fullname="RacingSimulationTests.LaunchRpmIncreasesWhileHoldingSpace" methodname="LaunchRpmIncreasesWhileHoldingSpace" classname="RacingSimulationTests" runstate="Runnable" seed="1407967698" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000154" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1023" name="NitrousCanOnlyBeConsumedOnce" fullname="RacingSimulationTests.NitrousCanOnlyBeConsumedOnce" methodname="NitrousCanOnlyBeConsumedOnce" classname="RacingSimulationTests" runstate="Runnable" seed="2060064495" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000226" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1024" name="NitrousExpiresAfterItsConfiguredDuration" fullname="RacingSimulationTests.NitrousExpiresAfterItsConfiguredDuration" methodname="NitrousExpiresAfterItsConfiguredDuration" classname="RacingSimulationTests" runstate="Runnable" seed="120533075" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000165" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1029" name="RacePrototypeSceneContainsController" fullname="RacingSimulationTests.RacePrototypeSceneContainsController" methodname="RacePrototypeSceneContainsController" classname="RacingSimulationTests" runstate="Runnable" seed="1588598630" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.041314" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1028" name="ResetClearsRaceProgressAndNitrous" fullname="RacingSimulationTests.ResetClearsRaceProgressAndNitrous" methodname="ResetClearsRaceProgressAndNitrous" classname="RacingSimulationTests" runstate="Runnable" seed="1695071681" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000322" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1004" name="ShiftQualityAndGearAreUpdated" fullname="RacingSimulationTests.ShiftQualityAndGearAreUpdated" methodname="ShiftQualityAndGearAreUpdated" classname="RacingSimulationTests" runstate="Runnable" seed="1238304695" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000191" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1025" name="SimulationMovesCarAndReportsFinishTime" fullname="RacingSimulationTests.SimulationMovesCarAndReportsFinishTime" methodname="SimulationMovesCarAndReportsFinishTime" classname="RacingSimulationTests" runstate="Runnable" seed="1253081470" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000265" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-suite type="ParameterizedMethod" id="1021" name="SimultaneousShiftCommandsDoNotChangeGear" fullname="RacingSimulationTests.SimultaneousShiftCommandsDoNotChangeGear" classname="RacingSimulationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.004687" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1018" name="SimultaneousShiftCommandsDoNotChangeGear(1)" fullname="RacingSimulationTests.SimultaneousShiftCommandsDoNotChangeGear(1)" methodname="SimultaneousShiftCommandsDoNotChangeGear" classname="RacingSimulationTests" runstate="Runnable" seed="1057142490" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000725" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1019" name="SimultaneousShiftCommandsDoNotChangeGear(3)" fullname="RacingSimulationTests.SimultaneousShiftCommandsDoNotChangeGear(3)" methodname="SimultaneousShiftCommandsDoNotChangeGear" classname="RacingSimulationTests" runstate="Runnable" seed="1275047682" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000176" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1020" name="SimultaneousShiftCommandsDoNotChangeGear(6)" fullname="RacingSimulationTests.SimultaneousShiftCommandsDoNotChangeGear(6)" methodname="SimultaneousShiftCommandsDoNotChangeGear" classname="RacingSimulationTests" runstate="Runnable" seed="388168118" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000113" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+      </test-suite>
+      <test-suite type="TestFixture" id="1030" name="VehicleRpmSettingsTests" fullname="VehicleRpmSettingsTests" classname="VehicleRpmSettingsTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.003642" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1031" name="ExistingVehiclesUseRaceConfigAndCustomVehiclesOverrideIt" fullname="VehicleRpmSettingsTests.ExistingVehiclesUseRaceConfigAndCustomVehiclesOverrideIt" methodname="ExistingVehiclesUseRaceConfigAndCustomVehiclesOverrideIt" classname="VehicleRpmSettingsTests" runstate="Runnable" seed="918681678" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000827" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1034" name="LegacyEvaluationEntryPointsRemainAvailable" fullname="VehicleRpmSettingsTests.LegacyEvaluationEntryPointsRemainAvailable" methodname="LegacyEvaluationEntryPointsRemainAvailable" classname="VehicleRpmSettingsTests" runstate="Runnable" seed="882030294" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000468" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1032" name="RangesAreLimitedToVehicleEnvelopeAndReversedRangesCollapse" fullname="VehicleRpmSettingsTests.RangesAreLimitedToVehicleEnvelopeAndReversedRangesCollapse" methodname="RangesAreLimitedToVehicleEnvelopeAndReversedRangesCollapse" classname="VehicleRpmSettingsTests" runstate="Runnable" seed="626184086" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000217" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1033" name="SimulatorAndOpponentUseResolvedVehicleRanges" fullname="VehicleRpmSettingsTests.SimulatorAndOpponentUseResolvedVehicleRanges" methodname="SimulatorAndOpponentUseResolvedVehicleRanges" classname="VehicleRpmSettingsTests" runstate="Runnable" seed="866785661" result="Passed" start-time="2026-10-26 14:38:02Z" end-time="2026-10-26 14:38:02Z" duration="0.000410" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: C:/Users/ASUS/AppData/LocalLow/DefaultCompany/Street Speed Racing\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

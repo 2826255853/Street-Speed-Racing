@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-26 15:07:56Z" end-time="2026-10-26 15:07:56Z" duration="0.1853851">
+  <test-suite type="TestSuite" id="1011" name="Street Speed Racing" fullname="Street Speed Racing" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 15:07:56Z" end-time="2026-10-26 15:07:56Z" duration="0.185385" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1018" name="StreetSpeedRacing.PlayModeTests.dll" fullname="C:/Unity Project/Street Speed Racing/Library/ScriptAssemblies/StreetSpeedRacing.PlayModeTests.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 15:07:56Z" end-time="2026-10-26 15:07:56Z" duration="0.179053" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="44652" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1012" name="RaceGamePlayModeTests" fullname="RaceGamePlayModeTests" classname="RaceGamePlayModeTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 15:07:56Z" end-time="2026-10-26 15:07:56Z" duration="0.177614" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1013" name="RaceHudReflectsResolvedRangesAndDriverInputs" fullname="RaceGamePlayModeTests.RaceHudReflectsResolvedRangesAndDriverInputs" methodname="RaceHudReflectsResolvedRangesAndDriverInputs" classname="RaceGamePlayModeTests" runstate="Runnable" seed="1691107940" result="Passed" start-time="2026-10-26 15:07:56Z" end-time="2026-10-26 15:07:56Z" duration="0.166793" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: C:/Users/ASUS/AppData/LocalLow/DefaultCompany/Street Speed Racing\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
