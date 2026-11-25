@@ -140,7 +140,7 @@ public sealed class RaceHud : MonoBehaviour
         UpdateLayout();
         CurrentWindow = vehicle.ResolveRpmSettings(config);
         MaximumRpm = vehicle.redlineRpm;
-        ShowingLaunchWindow = phase == RacePhase.Preparing || phase == RacePhase.Countdown;
+        ShowingLaunchWindow = phase == RacePhase.Countdown;
         bool driving = phase == RacePhase.Racing && !player.finished;
         bool canShift = driving && player.gear < vehicle.gearRatios.Count;
         InBestRange = ShowingLaunchWindow ? CurrentWindow.ContainsLaunch(player.engineRpm) : canShift && CurrentWindow.ContainsShift(player.engineRpm);

@@ -28,7 +28,7 @@ public class RaceGamePlayModeTests
         Assert.IsNotNull(hud);
         Assert.AreEqual(2400, hud.CurrentWindow.launchMin);
         Assert.AreEqual(3000, hud.CurrentWindow.launchTarget);
-        Assert.IsTrue(hud.ShowingLaunchWindow);
+        Assert.IsFalse(hud.ShowingLaunchWindow);
         Assert.IsNotNull(hud.GetComponent<Canvas>());
         Assert.IsNotNull(EventSystem.current);
         Assert.IsNotNull(EventSystem.current.GetComponent<InputSystemUIInputModule>());
@@ -61,19 +61,33 @@ public class RaceGamePlayModeTests
         Assert.AreEqual("准备起步", hud.transform.Find("Safe Area/Race Header/Phase").GetComponent<Text>().text);
         Assert.IsNotNull(hud.transform.Find("Safe Area/Right Controls/Throttle/Icon"));
 
+        Button throttle = FindButton(hud.transform, "Throttle");
+        RaceHoldControl throttleHold = throttle.GetComponent<RaceHoldControl>();
+        var throttlePointer = new PointerEventData(EventSystem.current) { pointerId = 101 };
+        Assert.IsFalse(throttle.interactable);
+        throttleHold.OnPointerDown(throttlePointer);
+        Assert.IsFalse(controller.TouchLaunchHeld);
+        yield return new WaitForSeconds(controller.config.fixedStep * 2f);
+        Assert.AreEqual(controller.playerVehicle.idleRpm, controller.PlayerState.engineRpm);
+        Assert.AreEqual(controller.opponentVehicle.idleRpm, controller.OpponentState.engineRpm);
+
+        FindButton(hud.transform, "Start Race").onClick.Invoke();
+        yield return new WaitForSeconds(controller.config.fixedStep * 2f);
+        Assert.AreEqual(RacePhase.Countdown, controller.Phase);
+        Assert.IsTrue(hud.ShowingLaunchWindow);
+        Assert.IsTrue(throttle.interactable);
+        throttleHold.OnPointerDown(throttlePointer);
+        Assert.IsTrue(controller.TouchLaunchHeld);
+        yield return new WaitForSeconds(controller.config.fixedStep * 2f);
+        Assert.Greater(controller.PlayerState.engineRpm, controller.playerVehicle.idleRpm);
+        throttleHold.OnPointerExit(throttlePointer);
+        Assert.IsFalse(controller.TouchLaunchHeld);
+
         controller.PlayerState.engineRpm = 3000;
-        hud.Render(RacePhase.Preparing, 0, 0, controller.PlayerState, controller.OpponentState,
+        hud.Render(RacePhase.Countdown, .3f, 0, controller.PlayerState, controller.OpponentState,
             controller.playerVehicle, controller.config, string.Empty);
         Assert.IsTrue(hud.InBestRange);
         Assert.AreEqual(RaceGaugeGraphic.Green, needle.NeedleTint);
-        Button throttle = FindButton(hud.transform, "Throttle");
-        RaceHoldControl throttleHold = throttle.GetComponent<RaceHoldControl>();
-        throttleHold.OnPointerDown(new PointerEventData(EventSystem.current) { pointerId = 101 });
-        Assert.IsTrue(controller.TouchLaunchHeld);
-        throttleHold.OnPointerExit(new PointerEventData(EventSystem.current) { pointerId = 101 });
-        Assert.IsFalse(controller.TouchLaunchHeld);
-        hud.Render(RacePhase.Countdown, .3f, 0, controller.PlayerState, controller.OpponentState,
-            controller.playerVehicle, controller.config, string.Empty);
         controller.PlayerState.started = true;
         controller.PlayerState.engineRpm = 4500;
         hud.Render(RacePhase.Racing, 0, .25f, controller.PlayerState, controller.OpponentState,

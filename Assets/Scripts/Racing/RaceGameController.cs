@@ -51,7 +51,6 @@ public class RaceGameController : MonoBehaviour
         }
 
         Keyboard keyboard = Keyboard.current;
-        bool launchHeld = hasInputFocus && (touchLaunchHeld || (keyboard != null && keyboard.spaceKey.isPressed));
         if (keyboard != null && hasInputFocus)
         {
             if (phase == RacePhase.Racing)
@@ -74,12 +73,13 @@ public class RaceGameController : MonoBehaviour
         int ticks = 0;
         while (simulationAccumulator >= config.fixedStep && ticks < 8)
         {
-            if (phase == RacePhase.Preparing)
+            if (phase == RacePhase.Preparing && startRequested)
             {
-                SimulatePreparation(launchHeld);
+                BeginCountdown();
             }
             else if (phase == RacePhase.Countdown)
             {
+                bool launchHeld = hasInputFocus && (touchLaunchHeld || (keyboard != null && keyboard.spaceKey.isPressed));
                 SimulateCountdown(launchHeld);
             }
             else if (phase == RacePhase.Racing)
@@ -101,8 +101,7 @@ public class RaceGameController : MonoBehaviour
 
     public void SetLaunchHeld(bool held)
     {
-        touchLaunchHeld = held && hasInputFocus && isActiveAndEnabled &&
-            (phase == RacePhase.Preparing || phase == RacePhase.Countdown);
+        touchLaunchHeld = held && hasInputFocus && isActiveAndEnabled && phase == RacePhase.Countdown;
     }
 
     public void RequestUpshift()
@@ -212,16 +211,6 @@ public class RaceGameController : MonoBehaviour
         countdownRemaining = config.countdownSeconds;
         phase = RacePhase.Countdown;
         startRequested = false;
-    }
-
-    private void SimulatePreparation(bool launchHeld)
-    {
-        RaceCarSimulator.UpdateLaunchRpm(playerVehicle, config, playerState, launchHeld, config.fixedStep);
-        RaceCarSimulator.UpdateLaunchRpm(opponentVehicle, config, opponentState, opponentController.ShouldHoldLaunch(opponentVehicle, config, opponentState), config.fixedStep);
-        if (startRequested)
-        {
-            BeginCountdown();
-        }
     }
 
     private void SimulateCountdown(bool launchHeld)
